@@ -7,3 +7,11 @@
 use strict;
 use warnings;
 
+use Business::ISBN;
+
+my $isbn = Business::ISBN->new($ARGV[0]);
+print "ISBN: " . $isbn->as_string . "\n";
+# Country code doesn't work in Business::ISBN, so we list group code instead.
+# print "Country Code: " . $isbn->country_code . "\n";
+print "Group Code: " . $isbn->group_code . "\n";
+print "Publisher Code: " . $isbn->publisher_code . "\n";
