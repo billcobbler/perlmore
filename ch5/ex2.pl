@@ -16,3 +16,22 @@
 use strict;
 use warnings;
 
+my %total_bytes; 
+while (<>) {  
+    unless (/^#.*/) {
+        my ($source, $destination, $bytes) = split;  
+        $total_bytes{$source}{$destination} += $bytes; 
+        $total_bytes{$source}{'total'} += $bytes;
+    }
+}
+
+for my $source (sort { $total_bytes{$b}{'total'} <=> $total_bytes{$a}{'total'} } keys %total_bytes) {
+    print "$source: $total_bytes{$source}{'total'} total bytes sent\n";
+
+    for my $destination (sort { $total_bytes{$source}{$b}  <=> $total_bytes{$source}{$a} } keys %{ $total_bytes{$source} }) {    
+        next if $destination eq 'total';
+        print "$source => $destination:",     
+        " $total_bytes{$source}{$destination} bytes\n";  
+    }  
+    print "\n";
+}
