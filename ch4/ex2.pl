@@ -20,3 +20,34 @@
 # each person in the hash, updating their provisions list to include the 
 # required items.
 
+my %all = (  
+   Gilligan  => [qw/red_shirt hat lucky_socks water_bottle/],  
+   Skipper   => [qw/blue_shirt hat jacket preserver sunscreen/],  
+   Professor => [qw/sunscreen water_bottle slide_rule batteries radio/], 
+); 
+check_items_for_all(\%all); 
+
+sub check_required_items {  
+    my $who   = shift;  
+    my $items = shift;
+    my @required = qw(preserver sunscreen water_bottle jacket);  
+    my @missing = (  );
+    local $" = ', ';    
+
+    for my $item (@required) {    
+        unless (grep $item eq $_, @$items) { # not found in list?      
+            print "$who is missing $item.\n";      
+            push @missing, $item;    
+        }  
+    }  
+    
+    if (@missing) {    
+        print "Adding @missing to @$items for $who.\n";    
+        push @$items, @missing;  
+    } 
+}
+
+sub check_items_for_all {
+    my $people = shift;
+    check_required_items($_, $people->{$_}) for keys %$people;
+}
