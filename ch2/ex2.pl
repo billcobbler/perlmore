@@ -18,7 +18,6 @@ while (my $pat = <>){
     chomp $pat;
     last if $pat eq '';
 
-    my @files;
     die unless opendir DIR, "./ex2files/";
     eval {
         foreach my $file  (grep $_ =~ $pat, readdir DIR) {
