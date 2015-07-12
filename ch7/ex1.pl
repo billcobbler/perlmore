@@ -12,7 +12,7 @@ use strict;
 use File::Find;
 use Time::Local;
 
-my $target_dow = 1; # Sunday is 0, Monday is 1, ... 
+my $target_dow = 0; # Sunday is 0, Monday is 1, ... 
 my @starting_directories = (".");
 
 my $seconds_per_day = 24 * 60 * 60;
@@ -37,3 +37,12 @@ for my $file (@files) {
   print "$when: $file\n";
 }
 
+sub gather_mtime_between {
+    my $start = shift;
+    my $stop = shift;
+    my @files;
+    return (
+        sub { push @files, $_ if ((stat $_)[9] > $start && (stat $_)[9] < $stop) }, 
+        sub { return @files }
+    );
+}
