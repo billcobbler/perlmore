@@ -23,3 +23,20 @@
 #   Hint: use a hash, keyed by the castaway name, holding IO::File objects for each output
 #   file. Create them as necessary.
 
+use strict;
+use warnings;
+use IO::File;
+
+my %output;
+my $read_fh = IO::File->new('ex2.log', 'r');
+
+while (<$read_fh>){
+    my ($name, $line) = split(':', $_);
+    $name = lc $name;
+    unless (defined $output{$name}) {
+        #create the fh
+        $output{$name} = IO::File->new("$name.info", 'w');
+    }
+    print {$output{$name}} $_;
+}
+
