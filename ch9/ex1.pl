@@ -9,4 +9,15 @@
 #   If you don’t have many files in the /bin directory, perhaps because you don’t have a
 #   Unix machine, change the argument to glob as needed.
 
+use strict;
+use warnings;
+
+my @sorted =
+    map $_->[0],
+    sort { $b->[1] <=> $a->[1] }
+    map [$_, -s $_],
+    glob "/bin/*";
+
+print join("\n",(@sorted));
+print "\n";
 
